@@ -66,7 +66,6 @@ const StyledRowIdentifier = styled.div`
 `;
 
 const EMPTY_WELL_COLOR = "#e9e9e9";
-
 /**
  * Renders the plate (the row/col identifiers) and each corresponding well
  *
@@ -84,8 +83,9 @@ const Plate = (props) => {
   const wellRad = 40;
   /* used for the row identifier label */
   const alphabet = getAlphabet();
-  const ref = useRef(null);
+  const [hovering, setHover] = React.useState(false);
 
+  console.log(hovering);
   const [selectedCompound, setSelectedCompound] = React.useState("");
   const handleSelectedCompound = (selected) => {
     if (selected === selectedCompound) {
@@ -94,11 +94,6 @@ const Plate = (props) => {
       setSelectedCompound(selected);
     }
   };
-
-  var scroll = function (el) {
-    el.scrollTop = 1;
-    el.scrollTop = 0;
-  }
 
   const [display, setDisplay] = React.useState("none");
   const handleDisplay = (selected) => {
@@ -118,7 +113,7 @@ const Plate = (props) => {
   }
 
   return (
-    <StyledLayoutContainer>
+    <StyledLayoutContainer onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <StyledPlateWrapper
         rows={props.rows}
         cols={props.cols}
@@ -160,7 +155,7 @@ const Plate = (props) => {
                 empty={true}
                 row={pos[0]}
                 col={pos[1]}
-                key={"plate-" + index+1 +" "+ alphabet[pos[0] - 1] + pos[1]
+                key={"plate-" + index + 1 + " " + alphabet[pos[0] - 1] + pos[1]
                 }
                 color={EMPTY_WELL_COLOR} //grey
               />
@@ -196,7 +191,9 @@ const Plate = (props) => {
         compoundMap={props.compoundMap}
         compoundToColorMap={props.compoundToColorMap}
         handleSelectedCompound={handleSelectedCompound}
+        plate={props.data}
         rows={props.rows}
+        hovering={hovering}
       >
         <Switch handleDisplay={handleDisplay} />
       </PlateSidebar>

@@ -91,7 +91,17 @@ const StyledArrowDown = styled(ArrowDown)`
  * @param props.children ... includes the Switch component
  */
 const PlateSidebar = (props) => {
-  const [scrollable, setScrollable] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (props.hovering) {
+      var el = ref.current;
+      console.log(el);
+      el.scrollTop = 1;
+      el.scrollTop = 0;
+    }
+  }, [props.hovering])
+
   /**
    * will propagate the targeted id of the element clicked to parent component
    */
@@ -100,16 +110,16 @@ const PlateSidebar = (props) => {
     props.handleSelectedCompound(e.currentTarget.id);
   };
 
- 
+
 
   /* key, value pairs of the compoundMap [K: cmpdname, V: [cmpdObjs..]] */
   let compoundMapEntries = Array.from(props.compoundMap.entries());
 
   return (
 
-    <StyledSideBar rows={props.rows}>
+    <StyledSideBar rows={props.rows} >
       {props.children}
-      <StyledLegendContainer rows={props.rows}>
+      <StyledLegendContainer ref={ref} rows={props.rows}>
         {compoundMapEntries.map(([key, val], index) => {
           return (
 
