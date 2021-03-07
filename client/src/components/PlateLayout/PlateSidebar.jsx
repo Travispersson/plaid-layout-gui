@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import DownloadOutputButton from "./DownloadOuputButton.jsx";
-import { ReactComponent as ArrowDown } from "../../assets/icons/chevron-down.svg";
 
 const StyledSideBar = styled.div`
   display: flex;
