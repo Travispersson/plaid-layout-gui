@@ -17,7 +17,9 @@ const StyledLegendContainer = styled.div`
   flex-direction: column;
   padding: 5px;
   height: ${(props) => (props.rows + 1) * 40}px;
-  overflow-y: auto;
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: scroll;
+
   padding-right: 20px;
 `;
 
@@ -86,7 +88,6 @@ const StyledArrowDown = styled(ArrowDown)`
  * @param props.compoundMap the map maping a compound name to all cmpdObjects with the same name (sorted high to low conc)
  * @param props.compoundToColorMap maping cmpdObject.cmpdnum to the corresponding hsla color
  * @param props.handleSelectedCompound callback function for handling the clicking of an item in the legend
- * @param props.plate the plate and its corresponding cmpdObjs
  * @param props.children ... includes the Switch component
  */
 const PlateSidebar = (props) => {
@@ -140,9 +141,6 @@ const PlateSidebar = (props) => {
           );
         })}
       </StyledLegendContainer>
-      {scrollable ? <StyledArrowDown></StyledArrowDown> : null}
-      <DownloadOutputButton plate={props.plate} single={true} />
-
     </StyledSideBar>
   );
 };

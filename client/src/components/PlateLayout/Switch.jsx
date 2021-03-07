@@ -69,6 +69,13 @@ const Switch = (props) => {
       >
         Concentration
       </StyledSwitch>
+      <StyledSwitch
+        active={active === "all"}
+        id={"all"}
+        onClick={handleClick}
+      >
+        All
+      </StyledSwitch>
     </StyledSwitchWrapper>
   );
 };

@@ -39,6 +39,24 @@ const StyledLabel = styled.div`
   height: ${(props) => props.wellRad}px;
 `;
 
+const StyledColLabel = styled.div`
+  font-size: 12px;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  color: #000;
+`;
+
+const StyledColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  margin: auto;
+  text-align: center;
+  width: ${(props) => props.wellRad}px;
+  height: ${(props) => props.wellRad}px;
+`;
+
 /**
  * Will render the component of one well from plate.
  * 
@@ -68,10 +86,7 @@ const Well = (props) => {
     ) {
       lighten = true;
     }
-    title =
-      props.display === "compound" || props.display === "none"
-        ? props.cmpdObj.cmpdname
-        : props.cmpdObj.CONCuM;
+    title = props.cmpdObj.cmpdname + "\n" + props.cmpdObj.CONCuM;
   }
 
   return (
@@ -84,11 +99,22 @@ const Well = (props) => {
       title={title}
     >
       {!props.empty && props.display !== "none" ? (
-        <StyledLabel wellRad={props.wellRad}>
-          {props.display === "compound"
-            ? truncateString(props.cmpdObj.cmpdname, 5)
-            : truncateString(props.cmpdObj.CONCuM, 5)}
-        </StyledLabel>
+        props.display === "all" ? (
+          <StyledColumn wellRad={props.wellRad}>
+                <StyledColLabel>
+                  {truncateString(props.cmpdObj.cmpdname, 5)}
+                </StyledColLabel>
+                <StyledColLabel>
+                  {truncateString(props.cmpdObj.CONCuM, 5)}
+                </StyledColLabel>
+              </StyledColumn>
+        ) : (
+          <StyledLabel wellRad={props.wellRad}>
+            {props.display === "compound"
+              ? truncateString(props.cmpdObj.cmpdname, 5)
+              : truncateString(props.cmpdObj.CONCuM, 5)}
+          </StyledLabel>
+        )
       ) : (
         ""
       )}
