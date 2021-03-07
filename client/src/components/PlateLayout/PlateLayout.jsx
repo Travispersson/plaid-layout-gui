@@ -33,14 +33,13 @@ const assignColorToCompound = (concs, hue, compoundToColorMap) => {
         o.cmpdnum,
         i === 0
           ? /*  tweak colors here if needed */
-            `hsla(${hue},${95}%,${41}%,0.74)`
-          : `hsla(${hue},${100}%,${
-              57 +
-              i *
-                (concentrationsLabels.includes(o.CONCuM) && o.CONCuM === "L"
-                  ? 10
-                  : 4)
-            }%,0.90)`
+          `hsla(${hue},${95}%,${41}%,0.74)`
+          : `hsla(${hue},${100}%,${57 +
+          i *
+          (concentrationsLabels.includes(o.CONCuM) && o.CONCuM === "L"
+            ? 10
+            : 4)
+          }%,0.90)`
       );
       i++;
     }
@@ -144,7 +143,8 @@ const PlateLayout = (props) => {
           />
         );
       })}
-      <FixedDownloadButton plates={plates} />
+        <FixedDownloadButton plates={plates} />
+  
     </StyledPlateContainer>
   );
 };

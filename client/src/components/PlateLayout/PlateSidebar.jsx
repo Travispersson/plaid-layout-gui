@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import DownloadOutputButton from "./DownloadOuputButton.jsx";
+import { ReactComponent as ArrowDown } from "../../assets/icons/chevron-down.svg";
 
 const StyledSideBar = styled.div`
   display: flex;
@@ -73,7 +74,11 @@ const StyledLabel = styled.div`
   font-weight: bold;
   font-size: 12px;
   margin-left: 2.5px;
-`;
+`
+
+const StyledArrowDown = styled(ArrowDown)`
+
+`
 /**
  * Renders the color legend (displaying the different color intensities of a compound), the concentration labels (highest and min)
    and the switch from switching between what information should be displayed in each well aswell as a download csv file button
@@ -85,6 +90,7 @@ const StyledLabel = styled.div`
  * @param props.children ... includes the Switch component
  */
 const PlateSidebar = (props) => {
+  const [scrollable, setScrollable] = useState(false);
   /**
    * will propagate the targeted id of the element clicked to parent component
    */
@@ -93,16 +99,21 @@ const PlateSidebar = (props) => {
     props.handleSelectedCompound(e.currentTarget.id);
   };
 
+ 
+
   /* key, value pairs of the compoundMap [K: cmpdname, V: [cmpdObjs..]] */
   let compoundMapEntries = Array.from(props.compoundMap.entries());
 
   return (
+
     <StyledSideBar rows={props.rows}>
       {props.children}
       <StyledLegendContainer rows={props.rows}>
         {compoundMapEntries.map(([key, val], index) => {
           return (
+
             <StyledConcAndColorBox key={index + key + val[0].plateID}>
+
               <StyledLegendItem id={val[0].plateID + key} onClick={handleClick}>
                 <StyledLabel>{key}</StyledLabel>
                 <StyledColorBox>
@@ -125,10 +136,13 @@ const PlateSidebar = (props) => {
                 </p>
               </StyledConcWrapper>
             </StyledConcAndColorBox>
+
           );
         })}
       </StyledLegendContainer>
+      {scrollable ? <StyledArrowDown></StyledArrowDown> : null}
       <DownloadOutputButton plate={props.plate} single={true} />
+
     </StyledSideBar>
   );
 };

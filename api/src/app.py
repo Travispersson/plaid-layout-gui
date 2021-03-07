@@ -15,7 +15,7 @@ app.config["CORS_HEADERS"] = "Content-Type"
 def test_dzn_file():
     content = request.get_json()
     try:
-        mz = MinizincModel("./src/plate-design.mzn", "gecode")
+        mz = MinizincModel("./plate-design.mzn", "gecode")
         mz.populate_instance(dzn_str=content["data"])
         result = mz.solve_instance()
         print(result)
@@ -30,7 +30,7 @@ def test_dzn_file():
 def test_plaid():
     data = request.get_json()
     try:
-        mz = MinizincModel("./src/plate-design.mzn", "gecode")
+        mz = MinizincModel("./plate-design.mzn", "gecode")
         mz.populate_instance(args_json=data)
         result = mz.solve_instance()
         j_res = ModelService.output_to_json(result)

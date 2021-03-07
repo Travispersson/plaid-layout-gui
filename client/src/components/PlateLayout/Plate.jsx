@@ -84,6 +84,7 @@ const Plate = (props) => {
   const wellRad = 40;
   /* used for the row identifier label */
   const alphabet = getAlphabet();
+  const ref = useRef(null);
 
   const [selectedCompound, setSelectedCompound] = React.useState("");
   const handleSelectedCompound = (selected) => {
@@ -93,6 +94,11 @@ const Plate = (props) => {
       setSelectedCompound(selected);
     }
   };
+
+  var scroll = function (el) {
+    el.scrollTop = 1;
+    el.scrollTop = 0;
+  }
 
   const [display, setDisplay] = React.useState("none");
   const handleDisplay = (selected) => {

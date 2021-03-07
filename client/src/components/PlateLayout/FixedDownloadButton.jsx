@@ -13,6 +13,7 @@ const StyledFixedButton = styled.div`
   justify-content: center;
   padding: 20px;
   border-radius: 4px;
+  margin-top: 10px;
 `;
 
 /**
