@@ -76,9 +76,6 @@ const StyledLabel = styled.div`
   margin-left: 2.5px;
 `
 
-const StyledArrowDown = styled(ArrowDown)`
-
-`
 /**
  * Renders the color legend (displaying the different color intensities of a compound), the concentration labels (highest and min)
    and the switch from switching between what information should be displayed in each well aswell as a download csv file button
