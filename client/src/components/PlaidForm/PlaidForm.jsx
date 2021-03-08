@@ -231,6 +231,7 @@ const PlaidForm = (props) => {
                 handleNext={handleNext}
                 handlePrev={handlePrev}
                 compoundState={compoundForm}
+                combinationState={combinationForm}
                 handleCompoundFormChange={handleCompoundFormChange}
               />
             )}

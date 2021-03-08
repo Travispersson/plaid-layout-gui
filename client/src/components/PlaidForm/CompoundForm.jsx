@@ -7,6 +7,7 @@ import parse from "../../functions/parse.js";
 import FormButtons from "./FormButtons/FormButtons";
 import useValidation from "./Validation/useValidation";
 import utils, { hasErrors } from "./utils.js";
+import InputTextArea from "./Fields/InputTextArea";
 
 const StyledSectionLabel = styled.label`
   margin-bottom: 10px;
@@ -122,8 +123,16 @@ const setUpTheCompoundForm = (groupObj) => {
   return compoundObject;
 };
 
+let combinationObject = {
+  combinations: 0,
+  combination_concentrations: 0,
+  combination_names: [], // List
+  combination_concentration_names: [], // List
+}
+
 const CompoundForm = ({
   compoundState,
+  combinationState,
   handleNext,
   handlePrev,
   handleCompoundFormChange,
@@ -131,6 +140,8 @@ const CompoundForm = ({
   const [compoundForm, setCompoundForm] = React.useState(() =>
     setUpTheCompoundForm(compoundState.groups)
   );
+
+  const [combinationForm, setCombinationForm]= React.useState(combinationState);
 
   const compoundConfig = {
     fields: {
@@ -175,6 +186,10 @@ const CompoundForm = ({
       ? compoundForm.groups.delimiter
       : DEFAULT_DELIMITER
   );
+
+  const handleCombinationChange = () => {
+
+  }
 
   const handleDelimiterChange = (new_delimiter) => {
     // When the delimiter has changed => we need to re-parse the compound names that has been written to the field (if not empty)
@@ -269,6 +284,13 @@ const CompoundForm = ({
         errors={errors}
         selectedGroup={compoundForm.groups.selectedGroup}
       />
+      <InputTextArea
+        label={"Compound combinations"} 
+        name={"combination_names"}
+        onChange={handleCombinationChange}
+        value={""}
+        disable={false}
+        />
       <FormButtons
         step={1}
         onClickNext={() => onClick("next")}
