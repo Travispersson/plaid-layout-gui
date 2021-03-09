@@ -123,11 +123,18 @@ const setUpTheCompoundForm = (groupObj) => {
   return compoundObject;
 };
 
-let combinationObject = {
-  combinations: 0,
+const setUpTheCombinationForm = (values) => {
+  const field_value = values.combination_names;
+  const delimiter = values.delimiter;
+
+  const combination_names = parse( delimiter,field_value);
+  const combinations = combination_names.length;
+
+/*   combinations: 0,
   combination_concentrations: 0,
-  combination_names: [], // List
-  combination_concentration_names: [], // List
+  combination_names: [], 
+  combination_concentration_names: [],  */
+  
 }
 
 const CompoundForm = ({
@@ -136,12 +143,19 @@ const CompoundForm = ({
   handleNext,
   handlePrev,
   handleCompoundFormChange,
+  handleCombinationFormChange,
 }) => {
+
+  
   const [compoundForm, setCompoundForm] = React.useState(() =>
     setUpTheCompoundForm(compoundState.groups)
   );
-
-  const [combinationForm, setCombinationForm]= React.useState(combinationState);
+  const [delimiter, setDelimiter] = React.useState(
+    compoundForm.groups.delimiter
+      ? compoundForm.groups.delimiter
+      : DEFAULT_DELIMITER
+  );
+  const [combinationForm, setCombinationForm] = React.useState(combinationState);
 
   const compoundConfig = {
     fields: {
@@ -174,21 +188,27 @@ const CompoundForm = ({
       const compoundErrors = utils.onClick();
       if (!hasErrors(compoundErrors)) {
         let compoundObj = setUpTheCompoundForm(compoundForm.groups);
+        let combinationObj = setUpTheCombinationForm(combinationForm.values);
         handleCompoundFormChange(compoundObj);
+      //  handleCombinationFormChange(combinationForm);
         handleNext();
       }
       setValidating(false);
     }
   }, [validating]);
 
-  const [delimiter, setDelimiter] = React.useState(
-    compoundForm.groups.delimiter
-      ? compoundForm.groups.delimiter
-      : DEFAULT_DELIMITER
-  );
 
-  const handleCombinationChange = () => {
-
+  
+  const handleCombinationChange = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    setCombinationForm({
+      ...combinationState, values: {
+        combination_names: value,
+        delimiter: delimiter
+      }
+    })
+    //handleCombinationFormChange()
   }
 
   const handleDelimiterChange = (new_delimiter) => {
@@ -236,6 +256,7 @@ const CompoundForm = ({
               concentration_names: "",
               concentration_names_parsed: "",
               compound_replicates: 0,
+              combination_names_parsed: "",
             },
           ],
         },
@@ -260,6 +281,7 @@ const CompoundForm = ({
     } else {
       let compoundObj = setUpTheCompoundForm(compoundForm.groups);
       handleCompoundFormChange(compoundObj);
+      handleCombinationFormChange(combinationForm);
       handlePrev();
     }
   };
@@ -284,13 +306,6 @@ const CompoundForm = ({
         errors={errors}
         selectedGroup={compoundForm.groups.selectedGroup}
       />
-      <InputTextArea
-        label={"Compound combinations"} 
-        name={"combination_names"}
-        onChange={handleCombinationChange}
-        value={""}
-        disable={false}
-        />
       <FormButtons
         step={1}
         onClickNext={() => onClick("next")}

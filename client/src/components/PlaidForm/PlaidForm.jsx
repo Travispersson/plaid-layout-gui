@@ -76,13 +76,14 @@ const PlaidForm = (props) => {
       );
     }
   }, [formState]);
-
   const [combinationForm, setCombinationForm] = useState({
     combinations: 0,
     combination_concentrations: 0,
-    combination_names: [], // List
-    combination_concentration_names: [], // List
+    combination_names: [],
+    combination_concentration_names: [],
   });
+  console.log(combinationForm);
+
   /* prepopulate or default object */
   const [compoundForm, setCompoundForm] = useState({
     compounds: 0,
@@ -94,24 +95,24 @@ const PlaidForm = (props) => {
 
     groups:
       props.uploadedConfig &&
-      props.uploadedConfig.compoundForm.groups.length > 0
+        props.uploadedConfig.compoundForm.groups.length > 0
         ? props.uploadedConfig.compoundForm
         : {
-            delimiter: ",",
-            selectedGroup: 0,
-            groups: [
-              {
-                id: "gr-0",
-                compound_names: "",
-                compound_names_parsed: "",
-                concentration_names: "",
-                concentration_names_parsed:"",
-                compound_replicates: 0,
-              },
-            ],
-          },
+          delimiter: ",",
+          selectedGroup: 0,
+          groups: [
+            {
+              id: "gr-0",
+              compound_names: "",
+              compound_names_parsed: "",
+              concentration_names: "",
+              concentration_names_parsed: "",
+              compound_replicates: 0,
+              combination_names_parsed: "",
+            },
+          ],
+        },
   });
-
   /* prepopulate or default object */
   const [controlForm, setControlForm] = useState({
     num_controls: 0,
@@ -123,19 +124,19 @@ const PlaidForm = (props) => {
       props.uploadedConfig && props.uploadedConfig.controlForm.groups.length > 0
         ? props.uploadedConfig.controlForm
         : {
-            delimiter: ",",
-            selectedGroup: 0,
-            groups: [
-              {
-                id: "gr-0",
-                concentration_names: "",
-                concentration_names_parsed:"",
-                control_replicates: 0,
-                control_names: "",
-                control_names_parsed:"",
-              },
-            ],
-          },
+          delimiter: ",",
+          selectedGroup: 0,
+          groups: [
+            {
+              id: "gr-0",
+              concentration_names: "",
+              concentration_names_parsed: "",
+              control_replicates: 0,
+              control_names: "",
+              control_names_parsed: "",
+            },
+          ],
+        },
   });
   /* prepopulate or default object */
 
@@ -143,27 +144,32 @@ const PlaidForm = (props) => {
     setCompoundForm(obj);
   };
 
+  const handleCombinationFormChange = (obj) => {
+    setCombinationForm(obj);
+  };
+
   const handleControlFormChange = (obj) => {
     setControlForm(obj);
   };
+
 
   /* prepopulate or default object */
   const [experimentForm, setExperimentForm] = useState(
     props.uploadedConfig
       ? props.uploadedConfig.experimentForm
       : {
-          num_rows: 4,
-          num_cols: 6,
-          vertical_cell_lines: 1,
-          horizontal_cell_lines: 1,
-          allow_empty_wells: false,
-          size_empty_edge: 0,
-          concentrations_on_different_rows: false,
-          concentrations_on_different_columns: false,
-          replicates_on_different_plates: false,
-          replicates_on_same_plate: false,
-          selected: 48,
-        }
+        num_rows: 4,
+        num_cols: 6,
+        vertical_cell_lines: 1,
+        horizontal_cell_lines: 1,
+        allow_empty_wells: false,
+        size_empty_edge: 0,
+        concentrations_on_different_rows: false,
+        concentrations_on_different_columns: false,
+        replicates_on_different_plates: false,
+        replicates_on_same_plate: false,
+        selected: 48,
+      }
   );
 
   const handleExperimentFormChange = (obj) => {
@@ -189,12 +195,14 @@ const PlaidForm = (props) => {
         const { [property]: _, ...finalCompoundForm } = compoundForm;
         const { groups, ...finalControlForm } = controlForm;
         const { selected, ...finalExperimentForm } = experimentForm;
+        const { values, ...finalCombinationForm } = combinationForm
+
 
         const mergedState = {
           ...finalExperimentForm,
           ...finalCompoundForm,
           ...finalControlForm,
-          ...combinationForm,
+          ...finalCombinationForm,
         };
 
         setFormState(mergedState);
@@ -233,6 +241,7 @@ const PlaidForm = (props) => {
                 compoundState={compoundForm}
                 combinationState={combinationForm}
                 handleCompoundFormChange={handleCompoundFormChange}
+                handleCombinationFormChange={handleCombinationFormChange}
               />
             )}
             {step === 2 && (

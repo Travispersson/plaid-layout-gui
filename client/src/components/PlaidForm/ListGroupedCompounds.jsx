@@ -109,10 +109,12 @@ const ListGroupedCompounds = ({
     let item;
 
     if (name === "compound_names") {
+        const compound_names_parsed = parse(delimiter, value);
+        console.log(compound_names_parsed.sort());
       item = {
         ...items[selectedGroup],
         compound_names: value,
-        compound_names_parsed: parse(delimiter, value),
+        compound_names_parsed: compound_names_parsed,
       };
     } else if (name === "concentration_names") {
       item = {
