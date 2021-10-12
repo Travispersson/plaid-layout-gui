@@ -54,14 +54,14 @@ describe("Testing the parse function...", () => {
     const delimeter = ",";
     const sentence = "This is a sentence, ok?";
     const parsed = parse(delimeter, sentence);
-    expect(parsed).toEqual(["This is a sentence", " ok?"]);
+    expect(parsed).toEqual(["This is a sentence", "ok?"]);
   });
 
   test("should correctly parse a simple sentence containing one delimiter of choice and let newline act like a delimiter", () => {
     const delimeter = ",";
     const sentence = "This is \na sentence, ok\n?";
     const parsed = parse(delimeter, sentence);
-    expect(parsed).toEqual(["This is ", "a sentence", " ok", "?"]);
+    expect(parsed).toEqual(["This is", "a sentence", "ok", "?"]);
   });
 
   test("should correctly parse a larger sentence containing multiple delimiter of choice, empty strings gets filtered out", () => {
@@ -69,6 +69,16 @@ describe("Testing the parse function...", () => {
     const sentence = "a||b|c|d|\n|s|k|||";
     const parsed = parse(delimeter, sentence);
     expect(parsed).toEqual(["a", "b", "c", "d", "s", "k"]);
+  });
+
+  test("should correctly parse combos and compounds from pl-example04-jonne-doubled", () => {
+    const delimeter = ",";
+    const sentenceComps = "(1), (2), (3), (4), (5), (6), (7), (8)";
+    const sentenceCombos = "(1)(2), (1)(3), (1)(4), (1)(5), (1)(6), (1)(7), (1)(8), (2)(3), (2)(4), (2)(5), (2)(6), (2)(7), (2)(8), (3)(4), (3)(5), (3)(6), (3)(7), (3)(8), (4)(5), (4)(6), (4)(7), (4)(8), (5)(6), (5)(7), (5)(8), (6)(7), (6)(8), (7)(8)";
+    const parsedComps = parse(delimeter, sentenceComps);
+    const parsedCombos = parse(delimeter, sentenceCombos);
+    expect(parsedComps).toEqual(["(1)", "(2)", "(3)", "(4)", "(5)", "(6)", "(7)", "(8)"]);
+    expect(parsedCombos).toEqual(["(1)(2)", "(1)(3)", "(1)(4)", "(1)(5)", "(1)(6)", "(1)(7)", "(1)(8)", "(2)(3)", "(2)(4)", "(2)(5)", "(2)(6)", "(2)(7)", "(2)(8)", "(3)(4)", "(3)(5)", "(3)(6)", "(3)(7)", "(3)(8)", "(4)(5)", "(4)(6)", "(4)(7)", "(4)(8)", "(5)(6)", "(5)(7)", "(5)(8)", "(6)(7)", "(6)(8)", "(7)(8)"])
   });
 });
 

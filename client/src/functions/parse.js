@@ -13,9 +13,11 @@ const parse = (delimiter, str) => {
   let trim = str.replace(/\n/g, delimiter);
 
   const delim = trim.split(delimiter);
-  const res = delim.filter((s) => {
+  const trimmedWs = delim.map(s => s.trim())
+  const res = trimmedWs.filter((s) => {
     return(s !== "");
   })
+
   return res;
 };
 export default parse;
